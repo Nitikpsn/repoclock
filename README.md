@@ -1,18 +1,28 @@
 # repoclock
 
-A small Python server that serves an ASCII clock as an SVG.
+A small Python server that serves stuff as SVG.
 
 ## Run
 
     python3 server.py
 
-Open http://localhost:8000 to see it tick.
+Open http://localhost:8000
 
-## Put it in a page
+## Clock
+
+Shows UTC time as big digits. Refreshes every second.
+
+Put it in a page:
 
     <img src="http://localhost:8000/api/clock" alt="clock">
 
-The clock uses UTC time and redraws on every request. White digits, black background.
+## Intro repo readme
+
+Put your github username and it'll show your `username/username` repo readme as an svg. Updates every second.
+
+Put it in a page:
+
+    <img src="http://localhost:8000/api/intro?user=YOURUSERNAME" alt="intro">
 
 ## Files
 
