@@ -1,7 +1,7 @@
 # repoclock
 
-A small Python server that draws a UTC clock and a GitHub readme as SVG.
-No packages to install, no build step.
+A little Python server that draws a clock, a progress bar, and a GitHub readme
+as SVG. No packages to install, no build step.
 
 ![repoclock demo](docs/preview.png)
 
@@ -33,6 +33,19 @@ The no-background version:
 background the page already has. Change `fg` to something readable on your
 theme; the default white disappears on a white page.
 
+## Progress bar
+
+How much of the year is gone. Also does month, week, and day.
+
+    <img src="http://localhost:8000/api/progress" alt="year progress">
+
+`of` picks the range: `year` (default), `month`, `week`, or `day`. `bg`, `fg`,
+and `bar` set the background, text, and fill colors:
+
+    <img src="http://localhost:8000/api/progress?of=month&bg=none&bar=58a6ff" alt="month progress">
+
+It is cached for 30 seconds.
+
 ## Intro readme
 
     <img src="http://localhost:8000/api/intro?user=YOURNAME" alt="intro">
@@ -42,7 +55,7 @@ lines. Markdown links, images, HTML tags and badges are stripped so it reads
 like text. `bg` and `fg` work the same as on the clock.
 
 Intro images are cached for a minute so every page view does not hit GitHub.
-The clock is never cached.
+The clock is not cached at all.
 
 ## Notes
 
