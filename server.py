@@ -36,52 +36,49 @@ PAGE = """<!doctype html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>repoclock</title>
 <style>
-:root { color-scheme: dark; }
-* { box-sizing: border-box; }
 body {
   margin: 0;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 22px;
-  padding: 32px 20px;
-  background: #0b0d10;
-  color: #e6edf3;
-  font: 15px/1.5 ui-monospace, "Courier New", monospace;
-}
-h1 { margin: 0; font-size: 20px; letter-spacing: .08em; text-transform: uppercase; }
-p { margin: 0; color: #8b949e; text-align: center; }
-img { max-width: 100%; height: auto; }
-form { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
-input, button {
-  border: 1px solid #30363d;
-  background: #161b22;
-  color: inherit;
-  padding: 8px 12px;
-  border-radius: 6px;
-  font: inherit;
-}
-button { cursor: pointer; }
-button:hover { border-color: #8b949e; }
-a { color: #58a6ff; }
-pre {
-  width: min(640px, 100%);
-  margin: 0;
-  overflow-x: auto;
-  background: #161b22;
-  border: 1px solid #30363d;
-  border-radius: 6px;
-  padding: 12px;
-  font-size: 13px;
+  padding: 42px 20px 60px;
+  background: #0d1117;
   color: #c9d1d9;
+  font-family: "Courier New", monospace;
+  font-size: 14px;
 }
+main { max-width: 690px; margin: 0 auto; }
+h1 { margin: 0 0 2px; font-size: 24px; font-weight: normal; }
+p { margin: 0 0 14px; }
+.sub { color: #8b949e; margin-bottom: 26px; }
+img { display: block; max-width: 100%; height: auto; }
+img + img { margin-top: 10px; }
+form { display: flex; gap: 6px; flex-wrap: wrap; margin: 26px 0 10px; }
+input, button {
+  font: inherit;
+  padding: 5px 8px;
+  background: #161b22; 
+  color: #c9d1d9;
+  border: 1px solid #30363d;
+  border-radius: 3px;
+}
+button { background: #21262d; cursor: pointer; }
+button:active { background: #30363d; }
+a { color: #58a6ff; }
+hr { border: 0; border-top: 1px solid #21262d; margin: 28px 0 12px; }
+pre {
+  margin: 8px 0;
+  padding: 8px 10px;
+  overflow-x: auto;
+  background: #11161d;
+  border: 1px solid #262c36;
+  font-size: 12px;
+  color: #9da7b3;
+}
+.note { color: #6e7681; font-size: 12px; margin: 26px 0 8px; }
 </style>
 </head>
 <body>
+<main>
 <h1>repoclock</h1>
-<p>Clock, progress bar and GitHub readme, drawn as SVG.</p>
+<p class="sub">a clock, a progress bar, and your github readme as svg.</p>
 
 <img id="clock" src="/api/clock" alt="clock">
 <img id="progress" src="/api/progress" alt="progress">
@@ -93,9 +90,12 @@ pre {
 
 {intro}
 
+<hr>
+<p class="note">stick one of these in a readme:</p>
 <pre>&lt;img src="http://localhost:8000/api/clock" alt="clock"&gt;</pre>
 <pre>&lt;img src="http://localhost:8000/api/clock?bg=none&amp;tz=Asia/Kolkata" alt="clock"&gt;</pre>
 <pre>&lt;img src="http://localhost:8000/api/progress?of=year" alt="year progress"&gt;</pre>
+</main>
 
 <script>
 var clock = document.getElementById("clock");
