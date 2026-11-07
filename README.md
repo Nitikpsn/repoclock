@@ -19,7 +19,7 @@ It refreshes every second. Query params:
 
 | param   | default | what it does                          |
 | ------- | ------- | ------------------------------------- |
-| tz      | UTC     | IANA timezone, e.g. `Asia/Kolkata`    |
+| tz      | UTC     | IANA timezone, like `Asia/Kolkata`    |
 | bg      | 000000  | hex color, or `none` for no background |
 | fg      | ffffff  | text color                            |
 | seconds | 1       | `0` hides the seconds                 |
@@ -56,6 +56,12 @@ like text. `bg` and `fg` work the same as on the clock.
 
 Intro images are cached for a minute so every page view does not hit GitHub.
 The clock is not cached at all.
+
+## Deploy on PythonAnywhere
+
+PythonAnywhere only runs WSGI apps, so it cannot run `server.py` directly. The
+repo has `wsgi.py` for that. The steps are in
+[docs/deploy-pythonanywhere.md](docs/deploy-pythonanywhere.md).
 
 ## Notes
 

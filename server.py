@@ -92,9 +92,9 @@ pre {
 
 <hr>
 <p class="note">stick one of these in a readme:</p>
-<pre>&lt;img src="http://localhost:8000/api/clock" alt="clock"&gt;</pre>
-<pre>&lt;img src="http://localhost:8000/api/clock?bg=none&amp;tz=Asia/Kolkata" alt="clock"&gt;</pre>
-<pre>&lt;img src="http://localhost:8000/api/progress?of=year" alt="year progress"&gt;</pre>
+<pre>&lt;img src="{base}/api/clock" alt="clock"&gt;</pre>
+<pre>&lt;img src="{base}/api/clock?bg=none&amp;tz=Asia/Kolkata" alt="clock"&gt;</pre>
+<pre>&lt;img src="{base}/api/progress?of=year" alt="year progress"&gt;</pre>
 </main>
 
 <script>
