@@ -279,7 +279,7 @@ def intro_svg(user, query):
 </svg>"""
 
 
-def page(user):
+def page(user, base="http://localhost:8000"):
     shown = html.escape(user)
     intro = ""
     if user:
@@ -291,7 +291,11 @@ def page(user):
             )
         else:
             intro = "<p>that does not look like a github username.</p>"
-    return PAGE.replace("{user}", shown).replace("{intro}", intro)
+    return (
+        PAGE.replace("{base}", base)
+        .replace("{user}", shown)
+        .replace("{intro}", intro)
+    )
 
 
 class ClockHandler(http.server.BaseHTTPRequestHandler):
@@ -303,7 +307,12 @@ class ClockHandler(http.server.BaseHTTPRequestHandler):
 
         if parsed.path == "/":
             user = query.get("user", [""])[0].strip()
-            self.send_body(page(user).encode("utf-8"), "text/html; charset=utf-8")
+            host = self.headers.get("Host") or f"localhost:{PORT}"
+            scheme = self.headers.get("X-Forwarded-Proto", "http")
+            self.send_body(
+                page(user, f"{scheme}://{host}").encode("utf-8"),
+                "text/html; charset=utf-8",
+            )
         elif parsed.path == "/api/clock":
             self.send_body(clock_svg(query).encode("utf-8"), "image/svg+xml; charset=utf-8")
         elif parsed.path == "/api/progress":
