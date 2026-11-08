@@ -1,6 +1,7 @@
 import html
 import http.server
 import re
+import time
 import urllib.request
 from datetime import datetime, timedelta, timezone
 from urllib.parse import parse_qs, urlparse
@@ -14,6 +15,9 @@ PORT = 8000
 
 USERNAME_RE = re.compile(r"^[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?$")
 HEX_RE = re.compile(r"^[0-9a-fA-F]{6}$")
+
+INTRO_CACHE = {}
+INTRO_TTL = 60
 
 DIGITS = {
     "0": (" _ ", "| |", "|_|"),
@@ -225,15 +229,26 @@ def progress_svg(query):
 
 
 def read_github_readme(user):
+    now = time.time()
+    cached = INTRO_CACHE.get(user)
+    if cached and now - cached[0] < INTRO_TTL:
+        return cached[1]
+
+    text = ""
     for name in ("README.md", "README"):
         url = f"https://raw.githubusercontent.com/{user}/{user}/HEAD/{name}"
         request = urllib.request.Request(url, headers={"User-Agent": "repoclock"})
         try:
             with urllib.request.urlopen(request, timeout=3) as response:
-                return response.read(8000).decode("utf-8", errors="ignore")
+                text = response.read(8000).decode("utf-8", errors="ignore")
+                break
         except Exception:
             continue
-    return ""
+
+    if len(INTRO_CACHE) > 100:
+        INTRO_CACHE.clear()
+    INTRO_CACHE[user] = (now, text)
+    return text
 
 
 def clean_markdown(line):
@@ -281,6 +296,7 @@ def intro_svg(user, query):
 
 def page(user, base="http://localhost:8000"):
     shown = html.escape(user)
+    base = html.escape(base)
     intro = ""
     if user:
         if USERNAME_RE.match(user):
@@ -292,9 +308,9 @@ def page(user, base="http://localhost:8000"):
         else:
             intro = "<p>that does not look like a github username.</p>"
     return (
-        PAGE.replace("{base}", base)
-        .replace("{user}", shown)
+        PAGE.replace("{user}", shown)
         .replace("{intro}", intro)
+        .replace("{base}", base)
     )
 
 
@@ -302,6 +318,17 @@ class ClockHandler(http.server.BaseHTTPRequestHandler):
     server_version = "repoclock/1.0"
 
     def do_GET(self):
+        self.respond()
+
+    def do_HEAD(self):
+        self.respond()
+
+    def do_POST(self):
+        self.send_body(b"method not allowed\n", "text/plain; charset=utf-8", status=405)
+
+    do_PUT = do_DELETE = do_PATCH = do_POST
+
+    def respond(self):
         parsed = urlparse(self.path)
         query = parse_qs(parsed.query)
 
@@ -325,7 +352,7 @@ class ClockHandler(http.server.BaseHTTPRequestHandler):
         elif parsed.path == "/api/intro":
             user = query.get("user", [""])[0].strip()
             if not USERNAME_RE.match(user):
-                self.send_error(400, "bad username")
+                self.send_body(b"bad username\n", "text/plain; charset=utf-8", status=400)
                 return
             svg = intro_svg(user, query)
             self.send_body(
@@ -334,16 +361,17 @@ class ClockHandler(http.server.BaseHTTPRequestHandler):
                 "public, max-age=60",
             )
         else:
-            self.send_error(404)
+            self.send_body(b"not found\n", "text/plain; charset=utf-8", status=404)
 
-    def send_body(self, body, content_type, cache="no-store"):
-        self.send_response(200)
+    def send_body(self, body, content_type, cache="no-store", status=200):
+        self.send_response(status)
         self.send_header("Content-Type", content_type)
         self.send_header("Cache-Control", cache)
         self.send_header("Content-Length", str(len(body)))
         self.send_header("X-Content-Type-Options", "nosniff")
         self.end_headers()
-        self.wfile.write(body)
+        if self.command != "HEAD":
+            self.wfile.write(body)
 
 
 if __name__ == "__main__":

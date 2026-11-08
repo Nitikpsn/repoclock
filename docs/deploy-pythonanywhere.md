@@ -13,7 +13,7 @@ library.
 Run this in the project folder:
 
 ```bash
-git add server.py wsgi.py docs/deploy-pythonanywhere.md README.md
+git add server.py wsgi.py docs/deploy-pythonanywhere.md docs/usage.md README.md
 git commit -m "Add PythonAnywhere setup"
 git push
 ```
