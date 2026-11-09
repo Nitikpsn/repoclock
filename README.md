@@ -30,7 +30,7 @@ open http://localhost:8000
 
 put those links in your own readme if you want.
 
-## more
+## AND more
 
 - [how to use it](docs/usage.md)
 - [deploy on pythonanywhere](docs/deploy-pythonanywhere.md)

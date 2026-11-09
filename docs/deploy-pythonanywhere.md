@@ -11,7 +11,6 @@ library.
 ## 1. Push the code
 
 Run this in the project folder:
-
 ```bash
 git add server.py wsgi.py docs/deploy-pythonanywhere.md docs/usage.md README.md
 git commit -m "Add PythonAnywhere setup"
@@ -48,7 +47,6 @@ git pull
 ```
 
 The code will be in `/home/YOURNAME/repoclock`.
-
 If the repo is private, open the Files tab, upload a zip of the project, then
 unzip it in Bash with `unzip repoclock.zip`.
 

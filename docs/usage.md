@@ -1,7 +1,7 @@
 # how to use repoclock
 
 repoclock is a small python server. it returns svg images: a clock, a progress
-bar, and a text version of a github readme.
+bar, and a text version of a github readme
 
 ## run it on localhost
 
