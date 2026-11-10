@@ -1,83 +1,55 @@
 # repoclock
 
-a small python server that makes svg images for your github readme:
+your readme, but it can tell time.
 
-- a clock
-- a progress bar for the year, month, week, or day
-- your github profile readme as plain text
+repoclock is a tiny python server that makes live svg images for your github
+profile. clock, progress bar, profile readme. no packages, no build step.
 
 ![repoclock demo](docs/preview.png)
 
 ## live
 
-these two come from my hosted app:
-
 ![clock](https://nitikpsn.pythonanywhere.com/api/clock?bg=0d1117&fg=c9d1d9)
 
 ![year progress](https://nitikpsn.pythonanywhere.com/api/progress?of=year)
 
-## what it can do
+## what you get
 
-- tell the time in your timezone, not just utc
-- 12 or 24 hour, with or without seconds
-- no background mode, so it blends into your page
-- a progress bar that reminds you the year is going
-- progress for year, month, week, or day
+- a clock for any timezone. 12 or 24 hour, seconds on or off
+- a progress bar for the year, month, week, or day
 - your github readme as a text image, badges removed
-- pick your own colors for the background, text, and bar
-- one python file, no packages, no build step
+- transparent mode and custom colors
+- one python file, no packages
 
-## use it in your readme
+## use it
 
-copy an image link into your readme. use `https`, not `http`.
+copy this. keep `https`.
 
     <img src="https://nitikpsn.pythonanywhere.com/api/clock?bg=none&fg=c9d1d9" alt="clock">
 
     <img src="https://nitikpsn.pythonanywhere.com/api/progress?of=year" alt="year progress">
 
-`bg=none` means no background. change `fg` so the text is visible on your page.
-the clock is utc by default. add `?tz=Asia/Kolkata` for another timezone.
-
-the readme image needs a repo with the same name as your username:
+the profile one needs a repo named after your username:
 
     <img src="https://nitikpsn.pythonanywhere.com/api/intro?user=YOURNAME" alt="intro">
 
-there are more options in [usage.md](docs/usage.md).
+more options: [usage.md](docs/usage.md).
 
-## run it yourself
-
-you need python 3.9 or newer. nothing to install.
+## run it
 
     python3 server.py
 
-open http://localhost:8000. press ctrl+c to stop.
+python 3.9+. open http://localhost:8000. host it free on pythonanywhere with
+[these steps](docs/deploy-pythonanywhere.md).
 
-## put it online
+## problems i hit
 
-you can host it on pythonanywhere for free. steps are in
-[deploy-pythonanywhere.md](docs/deploy-pythonanywhere.md).
-
-## endpoints
-
-- `/api/clock` - clock
-- `/api/progress` - progress bar
-- `/api/intro?user=YOURNAME` - profile readme
-
-## problems i ran into
-
-- pythonanywhere does not run `python3 server.py`. it only runs wsgi apps, so
-  i had to add `wsgi.py` and point the wsgi config at it.
-- the embed links on the page pointed to localhost after deploy. i had to build
-  the base url from the request instead of hardcoding it.
-- github caches images, so the readme image can look old after a change. adding
-  `&v=2` to the url fixes it for me.
-- the intro image only works if the `YOURNAME/YOURNAME` repo exists. without it
-  the image just says "empty readme?".
-- the free pythonanywhere app can go idle. sometimes i have to log in and click
-  Reload to wake it up.
-- i used `http` in a few image links at first. github did not load them. use
-  `https`.
-
+- pythonanywhere only runs wsgi apps. that is why `wsgi.py` exists.
+- the deployed page had localhost links until i built the base url from the request.
+- github caches images. add `&v=2` when the readme image looks old.
+- the intro image needs `YOURNAME/YOURNAME` to exist.
+- the free pythonanywhere app can go idle. log in and click Reload.
+- use `https`. github will not load `http` images.
 
 >>NOTE:
 >>i used gemnai to help error fix i tested it, fixed what broke, and kept what worked. the ai does
