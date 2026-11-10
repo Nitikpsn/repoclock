@@ -1,36 +1,55 @@
 # repoclock
 
-repoclock is a small python server. it draws a clock, a year progress bar, and
-a github readme as svg images. no packages, no build step.
+a small python server that makes svg images for your github readme:
+
+- a clock
+- a progress bar for the year, month, week, or day
+- your github profile readme as plain text
 
 ![repoclock demo](docs/preview.png)
 
-## live clock
+## live
 
-this image comes from my pythonanywhere app. github asks the server for it when
-the page loads, so it shows the current time.
+these two come from my hosted app:
 
 ![clock](https://nitikpsn.pythonanywhere.com/api/clock?bg=0d1117&fg=c9d1d9)
 
 ![year progress](https://nitikpsn.pythonanywhere.com/api/progress?of=year)
 
-## run it on localhost
+## use it in your readme
 
-you need python 3.9 or newer. nothing else.
+copy an image link into your readme. use `https`, not `http`.
+
+    <img src="https://nitikpsn.pythonanywhere.com/api/clock?bg=none&fg=c9d1d9" alt="clock">
+
+    <img src="https://nitikpsn.pythonanywhere.com/api/progress?of=year" alt="year progress">
+
+`bg=none` means no background. change `fg` so the text is visible on your page.
+the clock is utc by default. add `?tz=Asia/Kolkata` for another timezone.
+
+the readme image needs a repo with the same name as your username:
+
+    <img src="https://nitikpsn.pythonanywhere.com/api/intro?user=YOURNAME" alt="intro">
+
+there are more options in [usage.md](docs/usage.md).
+
+## run it yourself
+
+you need python 3.9 or newer. nothing to install.
 
     python3 server.py
 
-open http://localhost:8000
+open http://localhost:8000. press ctrl+c to stop.
 
-## what it does
+## put it online
 
-- `/api/clock` makes the clock
-- `/api/progress` makes the progress bar
-- `/api/intro?user=YOURNAME` makes the readme image
+you can host it on pythonanywhere for free. steps are in
+[deploy-pythonanywhere.md](docs/deploy-pythonanywhere.md).
 
-put those links in your own readme if you want.
+## endpoints
 
-## AND more
+- `/api/clock` - clock
+- `/api/progress` - progress bar
+- `/api/intro?user=YOURNAME` - profile readme
 
-- [how to use it](docs/usage.md)
-- [deploy on pythonanywhere](docs/deploy-pythonanywhere.md)
+that's it.
