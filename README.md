@@ -63,4 +63,23 @@ you can host it on pythonanywhere for free. steps are in
 - `/api/progress` - progress bar
 - `/api/intro?user=YOURNAME` - profile readme
 
-that's it.
+## problems i ran into
+
+- pythonanywhere does not run `python3 server.py`. it only runs wsgi apps, so
+  i had to add `wsgi.py` and point the wsgi config at it.
+- the embed links on the page pointed to localhost after deploy. i had to build
+  the base url from the request instead of hardcoding it.
+- github caches images, so the readme image can look old after a change. adding
+  `&v=2` to the url fixes it for me.
+- the intro image only works if the `YOURNAME/YOURNAME` repo exists. without it
+  the image just says "empty readme?".
+- the free pythonanywhere app can go idle. sometimes i have to log in and click
+  Reload to wake it up.
+- i used `http` in a few image links at first. github did not load them. use
+  `https`.
+
+
+>>NOTE:
+>>i used gemnai to help error fix i tested it, fixed what broke, and kept what worked. the ai does
+>>not run when the server runs, and there is no ai api call at runtime.
+>>that's it.
