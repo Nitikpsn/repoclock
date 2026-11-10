@@ -16,6 +16,17 @@ these two come from my hosted app:
 
 ![year progress](https://nitikpsn.pythonanywhere.com/api/progress?of=year)
 
+## what it can do
+
+- tell the time in your timezone, not just utc
+- 12 or 24 hour, with or without seconds
+- no background mode, so it blends into your page
+- a progress bar that reminds you the year is going
+- progress for year, month, week, or day
+- your github readme as a text image, badges removed
+- pick your own colors for the background, text, and bar
+- one python file, no packages, no build step
+
 ## use it in your readme
 
 copy an image link into your readme. use `https`, not `http`.
